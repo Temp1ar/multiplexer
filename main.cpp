@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 	// Parsing arguments
 	extern char *optarg;
 	extern int optopt, optind, opterr;
-    opterr = 0;
+	opterr = 0;
 	int c;
 	while ((c = getopt(argc, argv, "c:")) != -1) {
 		message.str("");
