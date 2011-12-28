@@ -1,0 +1,11 @@
+#!/bin/bash
+
+update-inetd --remove mplex
+if which invoke-rc.d >/dev/null 2>&1; then
+  invoke-rc.d inetutils-inetd restart
+else
+  /etc/init.d/inetutils-inetd restart
+fi
+killall -q mplex
+
+exit 0

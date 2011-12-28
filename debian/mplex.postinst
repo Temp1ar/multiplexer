@@ -1,0 +1,38 @@
+#!/bin/bash
+
+port=3000
+find=`cat /etc/services | grep -n mplex`
+insertion="mplex\t\t${port}/tcp\t\t#Android VNC Server"
+
+if [ ${#find} -eq 0 ] ; then
+  counter=port
+  while [ ${#find} -eq 0 ] ; do
+    let counter=counter-1
+    find=$(cat /etc/services | grep -n ${counter} | tail -n 1)
+  done
+
+  totalLines=$(wc -l /etc/services)
+  totalLines=${totalLines%% *}
+  lineNo=${find%%:*}
+
+  cp /etc/services /etc/services.bak
+  cat /etc/services.bak | head -n ${lineNo} > /etc/services
+  echo -e $text ${insertion} >> /etc/services
+  cat /etc/services.bak | tail -n $(($totalLines-$lineNo)) >> /etc/services
+else
+  if [[ $find == *mplex* ]] ; then
+    echo "Already in services"
+  else
+    echo "Port is blocked by another service"
+	exit 1
+  fi
+fi
+
+update-inetd --remove mplex
+update-inetd --add 'mplex\t\tstream\t\ttcp\t\tnowait\troot\t/sbin/mplex'
+if which invoke-rc.d >/dev/null 2>&1; then
+  invoke-rc.d inetutils-inetd restart
+else
+  /etc/init.d/inetutils-inetd restart
+fi
+exit 0

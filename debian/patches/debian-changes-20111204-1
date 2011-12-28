@@ -1,0 +1,61 @@
+Description: Upstream changes introduced in version 20111204-1
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ mplex (20111204-1) unstable; urgency=low
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Alexey Korovin <alexey.korovin@spbau.se>
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- mplex-20111204.orig/Makefile
++++ mplex-20111204/Makefile
+@@ -1,14 +1,14 @@
+ CC = g++
+ CFLAGS = -Wall -O3
+-CONFIG_DIR = /etc
+-BINARY_DIR = /sbin
++CONFIG_DIR = $(DESTDIR)/etc/default
++BINARY_DIR = $(DESTDIR)/sbin
+ 
+ .PHONY: install clean
+ mplex: Utils.o Logger.o VNCServer.o Container.o ConfigFile.o main.o
+ 	$(CC) $(CFLAGS) -o mplex Utils.o Logger.o VNCServer.o Container.o ConfigFile.o main.o
+ install:
+-	cp -n ./default.conf $(CONFIG_DIR)/mplex.conf
+-	cp ./mplex $(BINARY_DIR)/mplex
++	install ./default.conf $(CONFIG_DIR)/mplex.conf
++	install ./mplex $(BINARY_DIR)/mplex
+ Utils.o: Utils.cpp Utils.h
+ 	$(CC) $(CFLAGS) -c Utils.cpp
+ Logger.o: Logger.cpp Logger.h
+--- mplex-20111204.orig/main.h
++++ mplex-20111204/main.h
+@@ -15,9 +15,9 @@ const int BAD_CTID_RECEIVED = 1;
+ const int CANT_START_SERVER = 2;
+ const int NO_SUCH_CONTAINER = 3;
+ 
+-const char* DEFAULT_CONFIG = "/etc/mplex.conf";
++const char* DEFAULT_CONFIG = "/etc/default/mplex.conf";
+ const int BAD_CONFIG_FILE = 5;
+ 
+ const int BAD_ARGUMENTS = 6;
+ 
+-#endif // MAIN_H
+\ No newline at end of file
++#endif // MAIN_H

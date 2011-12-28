@@ -1,0 +1,12 @@
+Package: mplex
+Version: 20111204-1
+Architecture: i386
+Maintainer: Alexey Korovin <alexey.korovin@spbau.se>
+Installed-Size: 132
+Pre-Depends: openbsd-inetd | inet-superserver | inetutils-inetd
+Depends: libc6 (>= 2.1.3), libgcc1 (>= 1:4.1.1), libstdc++6 (>= 4.4.0)
+Section: net
+Priority: extra
+Description: Multiplexer program for VNC Server
+ The inetd program, receiving OpenVZ container id and says on which
+ port client should connect with VNC client.

@@ -1,0 +1,4 @@
+Pre-Depends: openbsd-inetd | inet-superserver | inetutils-inetd
+Description: Multiplexer program for VNC Server
+ The inetd program, receiving OpenVZ container id and says on which
+ port client should connect with VNC client.

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+find=`cat /etc/services | grep -n mplex`
+
+if [ ${#find} -gt 0 ] ; then
+  totalLines=$(wc -l /etc/services)
+  totalLines=${totalLines%% *}
+  lineNo=${find%%:*}
+
+  cp /etc/services /etc/services.bak
+  cat /etc/services.bak | head -n $(($lineNo-1)) > /etc/services
+  cat /etc/services.bak | tail -n $(($totalLines-$lineNo)) >> /etc/services
+fi
+
+exit 0
